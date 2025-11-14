@@ -1,0 +1,77 @@
+#include <iostream>
+#include <cmath>
+#include <cstdarg>   
+using namespace std;
+
+class Math {
+public:
+    static int Power(int a, int n) {
+        int result = 1;
+        for (int i = 0; i < n; i++)
+            result *= a;
+        return result;
+    }
+
+    static double Power(double a, double n) {
+        return pow(a, 1.0 / n);  
+    }
+
+    static int HexToDec(string hex) {
+        int result = 0;
+
+        for (char c : hex) {
+            result *= 16;
+
+            if (c >= '0' && c <= '9')
+                result += c - '0';
+            else if (c >= 'A' && c <= 'F')
+                result += c - 'A' + 10;
+            else if (c >= 'a' && c <= 'f')
+                result += c - 'a' + 10;
+            else {
+                cout << "Помилка '" << c << "'\n";
+                return -1;
+            }
+        }
+        return result;
+    }
+
+    static int SumMany(int count, ...) {
+        va_list args;
+        va_start(args, count);
+
+        int sum = 0;
+
+        for (int i = 0; i < count; i++) {
+            int value = va_arg(args, int);
+            sum += value;
+        }
+
+        va_end(args);
+        return sum;
+    }
+};
+
+int main() {
+    int a, n;
+    cout << "Введiть цiле число a: ";
+    cin >> a;
+    cout << "Введiть степiнь n: ";
+    cin >> n;
+    cout << "a^n = " << Math::Power(a, n) << "\n";
+    double x, root;
+    cout << "\nВведiть дiйсне число x: ";
+    cin >> x;
+    cout << "Введiть степiнь кореня n: ";
+    cin >> root;
+    cout << "Корiнь n-го степеня = " << Math::Power(x, root) << "\n";
+    string hex;
+    cout << "\nВведiть число у шiстнадцятковiй системi: ";
+    cin >> hex;
+    cout << "У десятковiй системi: " << Math::HexToDec(hex) << "\n";
+    cout << "Сума 3 чисел: " << Math::SumMany(3, 1, 2, 3) << "\n";
+    cout << "Сума 5 чисел: " << Math::SumMany(5, 1, 2, 3, 4, 5) << "\n";
+    cout << "Сума 8 чисел: " << Math::SumMany(8, 1, 1, 1, 1, 1, 1, 1, 1) << "\n";
+
+    return 0;
+}
