@@ -1,1 +1,55 @@
+#include <iostream>
+#include <map>
+#include <locale>
+#include <cwctype> 
+using namespace std;
 
+class MorseCode {
+private:
+    map<wchar_t, wstring> morse;
+public:
+    MorseCode() {
+        morse[L'А'] = L".-";    morse[L'Б'] = L"-...";
+        morse[L'В'] = L".--";   morse[L'Г'] = L"--.";
+        morse[L'Д'] = L"-..";   morse[L'Е'] = L".";
+        morse[L'Ж'] = L"...-";  morse[L'З'] = L"--..";
+        morse[L'И'] = L"..";    morse[L'І'] = L"..";
+        morse[L'К'] = L"-.-";   morse[L'Л'] = L".-..";
+        morse[L'М'] = L"--";    morse[L'Н'] = L"-.";
+        morse[L'О'] = L"---";   morse[L'П'] = L".--.";
+        morse[L'Р'] = L".-.";   morse[L'С'] = L"...";
+        morse[L'Т'] = L"-";     morse[L'У'] = L"..-";
+        morse[L'Ф'] = L"..-.";  morse[L'Х'] = L"....";
+        morse[L'Ц'] = L"-.-.";  morse[L'Ч'] = L"---.";
+        morse[L'Ш'] = L"----";  morse[L'Щ'] = L"--.-";
+        morse[L'Ь'] = L"-..-";  morse[L'Ю'] = L"..--";
+        morse[L'Я'] = L".-.-";
+    }
+
+    void encode(const wstring& message) {
+        for (wchar_t c : message) {
+            if (c == L' ') {
+                wcout << L"   "; 
+                continue;
+            }
+            wchar_t upper = towupper(c);
+            if (morse.count(upper)) {
+                wcout << morse[upper] << L" ";
+            }
+        }
+        wcout << endl;
+    }
+};
+
+int main() {
+    setlocale(LC_ALL, ""); 
+    wstring text;
+
+    wcout << L"Введіть повідомлення: ";
+    getline(wcin, text);
+
+    MorseCode morse;
+    morse.encode(text);
+
+    return 0;
+}
