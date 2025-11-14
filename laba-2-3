@@ -1,0 +1,47 @@
+#include <iostream>
+#include <cstdlib>
+#include <ctime>
+
+using namespace std;
+
+int main() {
+    srand(static_cast<unsigned int>(time(0)));
+    int secretNumber = rand() % 900 + 100; 
+
+    cout << "Комп'ютер задумав трьохзначне число. Відгадайте його.\n";
+
+    int guess;
+    while (true) {
+        cout << "Ваш варіант -> ";
+        cin >> guess;
+
+        if (guess == secretNumber) {
+            cout << "!!! ВИ ВГАДАЛИ !!!\n";
+            break;
+        }
+
+        int s1 = secretNumber / 100;
+        int s2 = (secretNumber / 10) % 10;
+        int s3 = secretNumber % 10;
+
+        int g1 = guess / 100;
+        int g2 = (guess / 10) % 10;
+        int g3 = guess % 10;
+
+        int correctPosition = 0;
+        int correctDigit = 0;
+
+        if (g1 == s1) correctPosition++;
+        if (g2 == s2) correctPosition++;
+        if (g3 == s3) correctPosition++;
+
+        if (g1 == s2 || g1 == s3) correctDigit++;
+        if (g2 == s1 || g2 == s3) correctDigit++;
+        if (g3 == s1 || g3 == s2) correctDigit++;
+
+        cout << "Вгадано: " << correctDigit + correctPosition
+             << ". На своїх позиціях: " << correctPosition << endl;
+    }
+
+    return 0;
+}
