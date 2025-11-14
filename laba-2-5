@@ -1,0 +1,101 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Animal {
+protected:
+    string name;
+    int age;
+public:
+    void setData() {
+        cout << "Введіть ім'я тварини: ";
+        cin >> name;
+        cout << "Введіть вік тварини: ";
+        cin >> age;
+    }
+    void eat() {
+        cout << name << " їсть їжу." << endl;
+    }
+    void sleep() {
+        cout << name << " спить." << endl;
+    }
+};
+
+class Mammal : public Animal {
+protected:
+    string furColor;
+public:
+    void setMammalData() {
+        setData();
+        cout << "Введіть колір шерсті: ";
+        cin >> furColor;
+    }
+    void feedYoung() {
+        cout << name << " годує малят." << endl;
+    }
+};
+
+
+class Ungulate : public Mammal {
+private:
+    int hoofs;
+public:
+    void setUngulateData() {
+        setMammalData();
+        cout << "Введіть кількість копит: ";
+        cin >> hoofs;
+    }
+    void run() {
+        cout << name << " біжить на " << hoofs << " копитах." << endl;
+    }
+};
+
+class Bird : public Animal {
+private:
+    int wingSpan;
+public:
+    void setBirdData() {
+        setData();
+        cout << "Введіть розмах крил (см): ";
+        cin >> wingSpan;
+    }
+    void fly() {
+        cout << name << " літає з розмахом крил " << wingSpan << " см." << endl;
+    }
+    void sing() {
+        cout << name << " співає." << endl;
+    }
+};
+
+int main() {
+    cout << "=== Парнокопитне ===" << endl;
+    Ungulate horse;
+    horse.setUngulateData();
+    horse.eat();
+    horse.sleep();
+    horse.feedYoung();
+    horse.run();
+
+    cout << "\n=== Ссавець ===" << endl;
+    Mammal dog;
+    dog.setMammalData();
+    dog.eat();
+    dog.sleep();
+    dog.feedYoung();
+
+    cout << "\n=== Птиця ===" << endl;
+    Bird sparrow;
+    sparrow.setBirdData();
+    sparrow.eat();
+    sparrow.sleep();
+    sparrow.fly();
+    sparrow.sing();
+
+    cout << "\n=== Тварина ===" << endl;
+    Animal generic;
+    generic.setData();
+    generic.eat();
+    generic.sleep();
+
+    return 0;
+}
