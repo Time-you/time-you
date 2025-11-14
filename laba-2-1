@@ -1,0 +1,56 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class IntArray {
+private:
+    vector<int> arr;
+public:
+    void inputArray(int size) {
+        cout << "Введіть елементи масиву (" << size << " цілих чисел) в одному рядку та натисніть <Enter>:\n-> ";
+        int number;
+        for (int i = 0; i < size; i++) {
+            cin >> number;
+            arr.push_back(number);
+        }
+    }
+
+    int sumNonZero() const {
+        int sum = 0;
+        for (int num : arr) {
+            sum += num;
+        }
+        return sum;
+    }
+
+    int countNonZero() const {
+        int count = 0;
+        for (int num : arr) {
+            if (num != 0) count++;
+        }
+        return count;
+    }
+
+    double averageNonZero() const {
+        int count = countNonZero();
+        if (count == 0) return 0;
+        return static_cast<double>(sumNonZero()) / count;
+    }
+};
+int main() {
+    IntArray myArray;
+    const int size = 10;
+
+    myArray.inputArray(size);
+
+    int sum = myArray.sumNonZero();
+    int count = myArray.countNonZero();
+    double average = myArray.averageNonZero();
+
+    cout << "Сума елементів масиву: " << sum << endl;
+    cout << "Кількість ненульових елементів: " << count << endl;
+    cout << "Середньо арифметичне значення ненульових елементів: " << average << endl;
+
+    return 0;
+}
