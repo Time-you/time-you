@@ -1,0 +1,96 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class ArrayHelper {
+public:
+
+    static int CountGreaterThanThree(const double arr[], int n) {
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (arr[i] > 3)
+                count++;
+        }
+        return count;
+    }
+
+    static double ProductAfterMaxAbs(const double arr[], int n) {
+        int maxIndex = 0;
+        double maxAbs = fabs(arr[0]);
+
+        for (int i = 1; i < n; i++) {
+            if (fabs(arr[i]) > maxAbs) {
+                maxAbs = fabs(arr[i]);
+                maxIndex = i;
+            }
+        }
+
+        if (maxIndex == n - 1)
+            return 1;
+
+        double product = 1;
+
+        for (int i = maxIndex + 1; i < n; i++) {
+            product *= arr[i];
+        }
+
+        return product;
+    }
+
+    static void RearrangeArray(double arr[], int n) {
+        double* temp = new double[n];
+        int index = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (arr[i] < 0)
+                temp[index++] = arr[i];
+        }
+
+        for (int i = 0; i < n; i++) {
+            if (arr[i] >= 0)
+                temp[index++] = arr[i];
+        }
+
+        for (int i = 0; i < n; i++)
+            arr[i] = temp[i];
+
+        delete[] temp;
+    }
+};
+
+int main() {
+    int n;
+
+    cout << "Введіть кількість елементів масиву: ";
+    cin >> n;
+
+    double* array = new double[n];
+
+    cout << "Введіть " << n << " елементів масиву:\n";
+    for (int i = 0; i < n; i++) {
+        cin >> array[i];
+    }
+
+    cout << "\nПочатковий масив:\n";
+    for (int i = 0; i < n; i++)
+        cout << array[i] << " ";
+    cout << endl;
+
+    cout << "\nКількість елементів масиву, більших за 3: "
+         << ArrayHelper::CountGreaterThanThree(array, n) << endl;
+
+    cout << "Добуток елементів після максимального по модулю: "
+         << ArrayHelper::ProductAfterMaxAbs(array, n) << endl;
+
+    ArrayHelper::RearrangeArray(array, n);
+
+    cout << "\nМасив після перетворення (негативні → позитивні):\n";
+    for (int i = 0; i < n; i++)
+        cout << array[i] << " ";
+
+    cout << endl;
+
+    delete[] array;
+
+    return 0;
+}
