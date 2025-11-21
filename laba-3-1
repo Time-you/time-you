@@ -1,0 +1,122 @@
+#include <iostream>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+class Word {
+private:
+    string word;          
+    int pages[10];        
+    int pageCount;        
+
+public:
+    void setWord(string w) {
+        word = w;
+    }
+
+    void setPages(int arr[], int count) {
+        pageCount = count;
+        for (int i = 0; i < count; i++) {
+            pages[i] = arr[i];
+        }
+    }
+
+    string getWord() {
+        return word;
+    }
+
+    int getPageCount() {
+        return pageCount;
+    }
+
+    int getPage(int i) {
+        return pages[i];
+    }
+
+    void show() {
+        cout << "Слово: " << word << endl;
+        cout << "Зустрічається на сторінках: ";
+        for (int i = 0; i < pageCount; i++) {
+            cout << pages[i] << " ";
+        }
+        cout << endl << endl;
+    }
+};
+
+
+int main() {
+    int n;
+    cout << "Введіть кількість слів: ";
+    cin >> n;
+
+    Word* arr = new Word[n];
+
+    for (int i = 0; i < n; i++) {
+        string w;
+        int count, pages[10];
+
+        cout << "\nВведіть слово: ";
+        cin >> w;
+
+        cout << "Скільки сторінок (1-10): ";
+        cin >> count;
+
+        cout << "Введіть номери сторінок: ";
+        for (int j = 0; j < count; j++) {
+            cin >> pages[j];
+        }
+
+        arr[i].setWord(w);
+        arr[i].setPages(pages, count);
+    }
+
+    int N;
+    cout << "\nВведіть N (слова з більш ніж N сторінок): ";
+    cin >> N;
+
+    cout << "\nСлова з більш ніж " << N << " сторінок:\n";
+    for (int i = 0; i < n; i++) {
+        if (arr[i].getPageCount() > N) {
+            cout << arr[i].getWord() << endl;
+        }
+    }
+
+    cout << "\nСлова за абеткою:\n";
+
+    string* sorted = new string[n];
+    for (int i = 0; i < n; i++) {
+        sorted[i] = arr[i].getWord();
+    }
+
+    sort(sorted, sorted + n);
+
+    for (int i = 0; i < n; i++) {
+        cout << sorted[i] << endl;
+    }
+
+    string search;
+    cout << "\nВведіть слово для пошуку: ";
+    cin >> search;
+
+    bool found = false;
+
+    for (int i = 0; i < n; i++) {
+        if (arr[i].getWord() == search) {
+            cout << "Слово \"" << search << "\" зустрічається на сторінках: ";
+            for (int j = 0; j < arr[i].getPageCount(); j++) {
+                cout << arr[i].getPage(j) << " ";
+            }
+            cout << endl;
+            found = true;
+        }
+    }
+
+    if (!found) {
+        cout << "Слова не знайдено." << endl;
+    }
+
+    delete[] arr;
+    delete[] sorted;
+
+    return 0;
+}
