@@ -1,0 +1,46 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+int main() {
+    string s[4];
+    for(int i=0;i<4;i++){
+        getline(cin,s[i]);
+        while(s[i].size()<16) s[i]+=' ';
+    }
+
+    ofstream f("out.bin",ios::binary);
+
+    for(int r=0;r<4;r++){
+        for(int j=0;j<16;j++){
+            unsigned short x = 0;
+            char c = s[r][j];
+
+            x |= r;
+            x |= ((c>>4)&15)<<2;
+
+            int b = 0;
+            unsigned short t = 1;
+            for(int k=0;k<6;k++){
+                if(x&t) b^=1;
+                t<<=1;
+            }
+            x |= b<<6;
+
+            x |= (c&15)<<7;
+            x |= j<<11;
+
+            b = 0; t = 1;
+            for(int k=0;k<15;k++){
+                if(x&t) b^=1;
+                t<<=1;
+            }
+            x |= b<<15;
+
+            f.write((char*)&x,2);
+        }
+    }
+
+    f.close();
+}
