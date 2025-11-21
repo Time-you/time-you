@@ -1,0 +1,82 @@
+#include <iostream>
+using namespace std;
+
+class Matrix {
+    int n, m;
+    int** a;
+public:
+    Matrix() {
+        n = m = 1;
+        a = new int*[1];
+        a[0] = new int[1];
+        a[0][0] = 0;
+    }
+
+    Matrix(int r, int c, int val=0) {
+        n = r; m = c;
+        a = new int*[n];
+        for(int i=0;i<n;i++) {
+            a[i] = new int[m];
+            for(int j=0;j<m;j++) a[i][j] = val;
+        }
+    }
+
+    ~Matrix() {
+        for(int i=0;i<n;i++) delete[] a[i];
+        delete[] a;
+    }
+
+    Matrix operator+(const Matrix& b) {
+        Matrix t(n,m);
+        for(int i=0;i<n;i++)
+            for(int j=0;j<m;j++)
+                t.a[i][j] = a[i][j] + b.a[i][j];
+        return t;
+    }
+
+    Matrix operator-(const Matrix& b) {
+        Matrix t(n,m);
+        for(int i=0;i<n;i++)
+            for(int j=0;j<m;j++)
+                t.a[i][j] = a[i][j] - b.a[i][j];
+        return t;
+    }
+
+    Matrix operator*(int x) {
+        Matrix t(n,m);
+        for(int i=0;i<n;i++)
+            for(int j=0;j<m;j++)
+                t.a[i][j] = a[i][j] * x;
+        return t;
+    }
+
+    friend ostream& operator<<(ostream& out, const Matrix& m) {
+        for(int i=0;i<m.n;i++) {
+            for(int j=0;j<m.m;j++)
+                out << m.a[i][j] << " ";
+            out << "\n";
+        }
+        return out;
+    }
+
+    friend istream& operator>>(istream& in, Matrix& m) {
+        for(int i=0;i<m.n;i++)
+            for(int j=0;j<m.m;j++)
+                in >> m.a[i][j];
+        return in;
+    }
+};
+
+int main() {
+    int n,m;
+    cin >> n >> m;
+
+    Matrix A(n,m), B(n,m);
+
+    cin >> A >> B;
+
+    Matrix C = A + B * 2 - A;
+
+    cout << C;
+    return 0;
+}
