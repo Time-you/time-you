@@ -1,0 +1,25 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+int main() {
+    string s;
+    getline(cin, s);
+    if (s.size() == 0) getline(cin, s);
+
+    unsigned char mask;
+    if (s.size() % 2 == 0) mask = 0x55; 
+    else mask = 0xAA; 
+
+    for (size_t i = 0; i < s.size(); i++) {
+        unsigned char c = (unsigned char)s[i];
+        c = c ^ mask;
+        s[i] = (char)c;
+    }
+
+    for (size_t i = 0; i < s.size(); i++) {
+        cout << (int)(unsigned char)s[i] << " ";
+    }
+
+    return 0;
+}
