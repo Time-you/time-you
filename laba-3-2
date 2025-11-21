@@ -1,0 +1,77 @@
+#include <iostream>
+using namespace std;
+
+class BoolVector {
+    int n;
+    bool* a;
+
+public:
+    BoolVector(int s = 5) : n(s) {
+        a = new bool[n];
+        for (int i = 0; i < n; i++) a[i] = 0;
+    }
+
+    BoolVector(const BoolVector& b) : n(b.n) {
+        a = new bool[n];
+        for (int i = 0; i < n; i++) a[i] = b.a[i];
+    }
+
+    ~BoolVector() { delete[] a; }
+
+    BoolVector& operator=(const BoolVector& b) {
+        if (this != &b) {
+            delete[] a;
+            n = b.n;
+            a = new bool[n];
+            for (int i = 0; i < n; i++) a[i] = b.a[i];
+        }
+        return *this;
+    }
+
+    void input() {
+        for (int i = 0; i < n; i++) cin >> a[i];
+    }
+
+    void show() const {
+        for (int i = 0; i < n; i++) cout << a[i] << " ";
+        cout << endl;
+    }
+
+    BoolVector operator&(const BoolVector& b) const {
+        BoolVector t(n);
+        for (int i = 0; i < n; i++) t.a[i] = a[i] && b.a[i];
+        return t;
+    }
+
+    BoolVector operator|(const BoolVector& b) const {
+        BoolVector t(n);
+        for (int i = 0; i < n; i++) t.a[i] = a[i] || b.a[i];
+        return t;
+    }
+
+    BoolVector operator!() const {
+        BoolVector t(n);
+        for (int i = 0; i < n; i++) t.a[i] = !a[i];
+        return t;
+    }
+};
+
+void modify(BoolVector& A, const BoolVector& B) {
+    A = A | B;
+}
+
+int main() {
+    BoolVector A(5), B(5);
+
+    A.input();
+    B.input();
+
+    (A & B).show();
+    (A | B).show();
+    (!A).show();
+
+    modify(A, B);
+    A.show();
+
+    return 0;
+}
