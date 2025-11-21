@@ -1,0 +1,132 @@
+#include <iostream>
+using namespace std;
+
+class MatrixFloat {
+    float* a;
+    int n, m;
+    int state;
+public:
+    MatrixFloat() : n(2), m(2), state(0) {
+        a = new float[n * m];
+        for (int i = 0; i < n*m; i++) a[i] = 0;
+    }
+
+    MatrixFloat(int size) : n(size), m(size), state(0) {
+        if (size <= 0) size = 2;
+        a = new float[n * m];
+        for (int i = 0; i < n*m; i++) a[i] = 0;
+    }
+
+    MatrixFloat(int r, int c, float val) : n(r), m(c), state(0) {
+        if (r <= 0 || c <= 0) { n = 2; m = 2; }
+        a = new float[n * m];
+        for (int i = 0; i < n*m; i++) a[i] = val;
+    }
+
+    MatrixFloat(const MatrixFloat& x) {
+        n = x.n; m = x.m; state = x.state;
+        a = new float[n*m];
+        for (int i = 0; i < n*m; i++) a[i] = x.a[i];
+    }
+
+    MatrixFloat& operator=(const MatrixFloat& x) {
+        if (this == &x) return *this;
+        delete[] a;
+        n = x.n; m = x.m; state = x.state;
+        a = new float[n*m];
+        for (int i = 0; i < n*m; i++) a[i] = x.a[i];
+        return *this;
+    }
+
+    ~MatrixFloat() {
+        delete[] a;
+    }
+
+    void set(int i, int j, float v = 0) {
+        if (i < 0 || i >= n || j < 0 || j >= m) state = 1;
+        else a[i * m + j] = v;
+    }
+
+    float get(int i, int j) {
+        if (i < 0 || i >= n || j < 0 || j >= m) {
+            state = 1;
+            return 0;
+        }
+        return a[i * m + j];
+    }
+
+    void print() {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++)
+                cout << a[i * m + j] << " ";
+            cout << endl;
+        }
+    }
+
+    MatrixFloat add(MatrixFloat& b) {
+        int r = n < b.n ? n : b.n;
+        int c = m < b.m ? m : b.m;
+        MatrixFloat t(r, c, 0);
+        for (int i = 0; i < r; i++)
+            for (int j = 0; j < c; j++)
+                t.set(i, j, get(i, j) + b.get(i, j));
+        return t;
+    }
+
+    MatrixFloat sub(MatrixFloat& b) {
+        int r = n < b.n ? n : b.n;
+        int c = m < b.m ? m : b.m;
+        MatrixFloat t(r, c, 0);
+        for (int i = 0; i < r; i++)
+            for (int j = 0; j < c; j++)
+                t.set(i, j, get(i, j) - b.get(i, j));
+        return t;
+    }
+
+    MatrixFloat mul(float k) {
+        MatrixFloat t(n, m, 0);
+        for (int i = 0; i < n*m; i++) t.a[i] = a[i] * k;
+        return t;
+    }
+
+    bool more(MatrixFloat& b) {
+        return n * m > b.n * b.m;
+    }
+
+    bool less(MatrixFloat& b) {
+        return n * m < b.n * b.m;
+    }
+
+    bool equal(MatrixFloat& b) {
+        if (n != b.n || m != b.m) return false;
+        for (int i = 0; i < n*m; i++)
+            if (a[i] != b.a[i]) return false;
+        return true;
+    }
+};
+
+int main() {
+    MatrixFloat A;
+    A.print();
+
+    MatrixFloat B(3);
+    B.print();
+
+    MatrixFloat C(3, 2, 5);
+    C.print();
+
+    MatrixFloat D = A.add(B);
+    D.print();
+
+    MatrixFloat E = B.sub(A);
+    E.print();
+
+    MatrixFloat F = C.mul(2.5f);
+    F.print();
+
+    cout << F.more(E) << endl;
+    cout << F.less(E) << endl;
+    cout << F.equal(E) << endl;
+
+    return 0;
+}
