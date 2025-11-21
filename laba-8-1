@@ -1,0 +1,46 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Time {
+    int h, m, s;
+public:
+    Time() : h(0), m(0), s(0) {}
+    Time(int hh, int mm, int ss) { setH(hh); setM(mm); setS(ss); }
+
+    void setH(int hh) { if (hh >= 0 && hh < 24) h = hh; }
+    void setM(int mm) { if (mm >= 0 && mm < 60) m = mm; }
+    void setS(int ss) { if (ss >= 0 && ss < 60) s = ss; }
+
+    int getH() { return h; }
+    int getM() { return m; }
+    int getS() { return s; }
+
+    void print1() {
+        cout << h << " годин " << m << " хвилин " << s << " секунд" << endl;
+    }
+
+    void print2() {
+        string t = h >= 12 ? "p.m." : "a.m.";
+        int h12 = h % 12; 
+        if (h12 == 0) h12 = 12;
+        cout << h12 << " " << t << " " << m << " хвилин " << s << " секунд" << endl;
+    }
+};
+
+int main() {
+    Time t1;
+    t1.print1();
+    t1.print2();
+
+    Time t2(16, 18, 3);
+    t2.print1();
+    t2.print2();
+
+    int h, m, s;
+    cin >> h >> m >> s;
+    Time t3(h, m, s);
+    t3.print1();
+    t3.print2();
+    return 0;
+}
