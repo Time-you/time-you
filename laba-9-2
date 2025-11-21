@@ -1,0 +1,60 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Assoc {
+    string* country;
+    string* capital;
+    int size;
+    int codeError;
+public:
+    Assoc(int n) {
+        size = n;
+        country = new string[n];
+        capital = new string[n];
+        codeError = 0;
+    }
+
+    ~Assoc() {
+        delete[] country;
+        delete[] capital;
+    }
+
+    void setItem(int i, string c, string cap) {
+        country[i] = c;
+        capital[i] = cap;
+    }
+
+    string operator[](string c) {
+        for(int i=0;i<size;i++)
+            if(country[i] == c) return capital[i];
+        codeError = 1;
+        return "";
+    }
+
+    string operator()(string c) {
+        return (*this)[c];
+    }
+
+    friend ostream& operator<<(ostream& out, const Assoc& a) {
+        for(int i=0;i<a.size;i++)
+            out << a.country[i] << " - " << a.capital[i] << "\n";
+        return out;
+    }
+};
+
+int main() {
+    Assoc a(3);
+
+    a.setItem(0,"Україна","Київ");
+    a.setItem(1,"Польща","Варшава");
+    a.setItem(2,"Франція","Париж");
+
+    cout << a;
+
+    string x;
+    cin >> x;
+    cout << a[x];
+
+    return 0;
+}
