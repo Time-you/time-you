@@ -1,0 +1,144 @@
+#include <iostream>
+using namespace std;
+
+class VectorFloat {
+    float* v;
+    int n;
+    int state;
+    static int countObj;
+public:
+    VectorFloat() : n(1), state(0) {
+        v = new float[1];
+        v[0] = 0;
+        countObj++;
+    }
+
+    VectorFloat(int size) : state(0) {
+        if (size <= 0) {
+            n = 1;
+            v = new float[1];
+            v[0] = 0;
+        } else {
+            n = size;
+            v = new float[n];
+            for (int i = 0; i < n; i++) v[i] = 0;
+        }
+        countObj++;
+    }
+
+    VectorFloat(int size, float val) : state(0) {
+        if (size <= 0) {
+            n = 1;
+            v = new float[1];
+            v[0] = val;
+        } else {
+            n = size;
+            v = new float[n];
+            for (int i = 0; i < n; i++) v[i] = val;
+        }
+        countObj++;
+    }
+
+    VectorFloat(const VectorFloat& x) {
+        n = x.n;
+        state = x.state;
+        v = new float[n];
+        for (int i = 0; i < n; i++) v[i] = x.v[i];
+        countObj++;
+    }
+
+    VectorFloat& operator=(const VectorFloat& x) {
+        if (this == &x) return *this;
+        delete[] v;
+        n = x.n;
+        state = x.state;
+        v = new float[n];
+        for (int i = 0; i < n; i++) v[i] = x.v[i];
+        return *this;
+    }
+
+    ~VectorFloat() {
+        delete[] v;
+        countObj--;
+    }
+
+    void set(int i, float value = 0) {
+        if (i < 0 || i >= n) state = 1;
+        else v[i] = value;
+    }
+
+    float get(int i) {
+        if (i < 0 || i >= n) {
+            state = 1;
+            return 0;
+        }
+        return v[i];
+    }
+
+    void print() {
+        for (int i = 0; i < n; i++) cout << v[i] << " ";
+        cout << endl;
+    }
+
+    VectorFloat add(VectorFloat& b) {
+        int k = n < b.n ? n : b.n;
+        VectorFloat t(k);
+        for (int i = 0; i < k; i++) t.v[i] = v[i] + b.v[i];
+        return t;
+    }
+
+    VectorFloat sub(VectorFloat& b) {
+        int k = n < b.n ? n : b.n;
+        VectorFloat t(k);
+        for (int i = 0; i < k; i++) t.v[i] = v[i] - b.v[i];
+        return t;
+    }
+
+    VectorFloat mul(long k) {
+        VectorFloat t(n);
+        for (int i = 0; i < n; i++) t.v[i] = v[i] * k;
+        return t;
+    }
+
+    bool more(VectorFloat& b) {
+        return n > b.n;
+    }
+
+    bool less(VectorFloat& b) {
+        return n < b.n;
+    }
+
+    bool equal(VectorFloat& b) {
+        if (n != b.n) return false;
+        for (int i = 0; i < n; i++) if (v[i] != b.v[i]) return false;
+        return true;
+    }
+};
+
+int VectorFloat::countObj = 0;
+
+int main() {
+    VectorFloat a;
+    a.print();
+
+    VectorFloat b(5);
+    b.print();
+
+    VectorFloat c(5, 3.5f);
+    c.print();
+
+    a = c.add(b);
+    a.print();
+
+    VectorFloat d = c.sub(b);
+    d.print();
+
+    VectorFloat e = c.mul(3);
+    e.print();
+
+    cout << e.more(d) << endl;
+    cout << e.less(d) << endl;
+    cout << e.equal(d) << endl;
+
+    return 0;
+}
