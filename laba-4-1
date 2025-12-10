@@ -1,0 +1,33 @@
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+class Segment {
+private:
+    double x1, y1;
+    double x2, y2;
+public:
+    void input() {
+        cout << "Введiть x1, y1: ";
+        cin >> x1 >> y1;
+        cout << "Введiть x2, y2: ";
+        cin >> x2 >> y2;
+    }
+
+    void output() {
+        cout << "Вiдрiзок: (" << x1 << ", " << y1 << ") - (" << x2 << ", " << y2 << ")\n";
+    }
+
+    void printLength() {
+        double len = sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+        cout << "Довжина вiдрiзка: " << len << endl;
+    }
+};
+
+int main() {
+    Segment s;
+    s.input();
+    s.output();
+    s.printLength();
+    return 0;
+}
