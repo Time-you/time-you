@@ -1,0 +1,37 @@
+#include <iostream>
+#include "Abonent.h"
+using namespace std;
+
+int main() {
+    int n;
+    cout << "Введiть кiлькiсть абонентiв: ";
+    cin >> n;
+
+    Abonent* telefon = new Abonent[n];
+
+    for (int i = 0; i < n; i++) {
+        cout << "Абонент " << i + 1 << endl;
+        telefon[i].input();
+    }
+
+    string searchNumber;
+    cout << "Введiть номер телефону для пошуку: ";
+    getline(cin >> ws, searchNumber);
+
+    bool found = false;
+    for (int i = 0; i < n; i++) {
+        if (telefon[i].getNomer() == searchNumber) {
+            cout << "Абонент знайдений:" << endl;
+            telefon[i].print();
+            found = true;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Абонента з таким номером не iснує" << endl;
+    }
+
+    delete[] telefon;
+    return 0;
+}
