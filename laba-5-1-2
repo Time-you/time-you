@@ -1,0 +1,67 @@
+#include "Abonent.h"
+#include <iostream>
+using namespace std;
+
+Abonent::Abonent() {
+    name = "";
+    init = "";
+    nomer = "";
+    adress = "";
+}
+
+Abonent::Abonent(string n, string i, string num, string a) {
+    name = n;
+    init = i;
+    nomer = num;
+    adress = a;
+}
+
+void Abonent::setName(string n) {
+    name = n;
+}
+
+void Abonent::setInit(string i) {
+    init = i;
+}
+
+void Abonent::setNomer(string num) {
+    nomer = num;
+}
+
+void Abonent::setAdress(string a) {
+    adress = a;
+}
+
+string Abonent::getName() const {
+    return name;
+}
+
+string Abonent::getInit() const {
+    return init;
+}
+
+string Abonent::getNomer() const {
+    return nomer;
+}
+
+string Abonent::getAdress() const {
+    return adress;
+}
+
+void Abonent::input() {
+    cout << "Прiзвище: ";
+    getline(cin >> ws, name);
+    cout << "Iнiцiали: ";
+    getline(cin >> ws, init);
+    cout << "Номер телефону: ";
+    getline(cin >> ws, nomer);
+    cout << "Домашня адреса: ";
+    getline(cin >> ws, adress);
+}
+
+void Abonent::print() const {
+    cout << "Прiзвище: " << name << endl;
+    cout << "Iнiцiали: " << init << endl;
+    cout << "Номер телефону: " << nomer << endl;
+    cout << "Домашня адреса: " << adress << endl;
+}
