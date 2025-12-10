@@ -1,0 +1,31 @@
+#ifndef ABONENT_H
+#define ABONENT_H
+
+#include <string>
+using namespace std;
+
+class Abonent {
+private:
+    string name;
+    string init;
+    string nomer;
+    string adress;
+public:
+    Abonent();
+    Abonent(string n, string i, string num, string a);
+
+    void setName(string n);
+    void setInit(string i);
+    void setNomer(string num);
+    void setAdress(string a);
+
+    string getName() const;
+    string getInit() const;
+    string getNomer() const;
+    string getAdress() const;
+
+    void input();
+    void print() const;
+};
+
+#endif
